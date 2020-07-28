@@ -1,10 +1,13 @@
 {
   "name": "ws-core",
   "version": "1.0.0",
+  "main": "./build/index.js",
   "files": [
     "build"
   ],
-  "scripts": {},
+  "scripts": {
+    "build:w": "tsc -b -w"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

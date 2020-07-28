@@ -1,2 +1,3 @@
-export declare const a = 11111;
+export declare enum MessageType {
+}
 //# sourceMappingURL=index.d.ts.map

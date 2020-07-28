@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.a = void 0;
-exports.a = 11111;
+exports.MessageType = void 0;
+var MessageType;
+(function (MessageType) {
+})(MessageType = exports.MessageType || (exports.MessageType = {}));
 //# sourceMappingURL=index.js.map

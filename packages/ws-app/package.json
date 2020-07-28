@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git@gitee.com:gyshijiamoni/webpack-demo.git"
   },
+  "scripts": {
+    "start": "webpack-dev-server --env=development"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
