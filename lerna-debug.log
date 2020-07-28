@@ -1,0 +1,69 @@
+0 silly argv {
+0 silly argv   _: [ 'bootstrap' ],
+0 silly argv   lernaVersion: '3.22.1',
+0 silly argv   '$0': 'C:\\Users\\hzbnl\\AppData\\Roaming\\npm\\node_modules\\lerna\\cli.js'
+0 silly argv }
+1 notice cli v3.22.1
+2 verbose rootPath E:\work\duplex_demo
+3 silly npmConfig {
+3 silly npmConfig   registry: undefined,
+3 silly npmConfig   npmClient: 'npm',
+3 silly npmConfig   npmClientArgs: [],
+3 silly npmConfig   mutex: undefined
+3 silly npmConfig }
+4 info Bootstrapping 2 packages
+5 verbose lifecycle preinstall
+6 silly lifecycle No script for "preinstall" in "ws-app", continuing
+7 silly lifecycle No script for "preinstall" in "ws-server", continuing
+8 silly hasDependencyInstalled ws-app @babel/core
+9 silly hasDependencyInstalled ws-app babel-loader
+10 silly hasDependencyInstalled ws-app html-webpack-plugin
+11 silly hasDependencyInstalled ws-app webpack
+12 silly hasDependencyInstalled ws-app webpack-cli
+13 silly hasDependencyInstalled ws-app webpack-dev-server
+14 silly hasDependencyInstalled ws-app webpack-merge
+15 silly hasDependencyInstalled ws-server @types/express
+16 silly hasDependencyInstalled ws-server @types/node
+17 silly hasDependencyInstalled ws-server @types/ws
+18 silly hasDependencyInstalled ws-server express
+19 silly hasDependencyInstalled ws-server ws
+20 silly root dependencies {}
+21 silly leaf dependencies {}
+22 info Installing external dependencies
+23 verbose actions 1 actions, concurrency 2
+24 silly npmInstallDependencies ws-app [
+24 silly npmInstallDependencies   '@babel/core@^7.10.5',
+24 silly npmInstallDependencies   'babel-loader@^8.1.0',
+24 silly npmInstallDependencies   'html-webpack-plugin@^4.3.0',
+24 silly npmInstallDependencies   'webpack@^4.44.0',
+24 silly npmInstallDependencies   'webpack-cli@^3.3.12',
+24 silly npmInstallDependencies   'webpack-dev-server@^3.11.0',
+24 silly npmInstallDependencies   'webpack-merge@^5.0.9'
+24 silly npmInstallDependencies ]
+25 silly npmInstallDependencies backup E:\work\duplex_demo\packages\ws-app\package.json
+26 silly npmInstallDependencies writing tempJson {
+26 silly npmInstallDependencies   name: 'ws-app',
+26 silly npmInstallDependencies   version: '1.0.0',
+26 silly npmInstallDependencies   description: '',
+26 silly npmInstallDependencies   repository: { type: 'git', url: 'git@gitee.com:gyshijiamoni/webpack-demo.git' },
+26 silly npmInstallDependencies   keywords: [],
+26 silly npmInstallDependencies   author: '',
+26 silly npmInstallDependencies   license: 'ISC',
+26 silly npmInstallDependencies   devDependencies: {
+26 silly npmInstallDependencies     '@babel/core': '^7.10.5',
+26 silly npmInstallDependencies     'babel-loader': '^8.1.0',
+26 silly npmInstallDependencies     'html-webpack-plugin': '^4.3.0',
+26 silly npmInstallDependencies     webpack: '^4.44.0',
+26 silly npmInstallDependencies     'webpack-cli': '^3.3.12',
+26 silly npmInstallDependencies     'webpack-dev-server': '^3.11.0',
+26 silly npmInstallDependencies     'webpack-merge': '^5.0.9'
+26 silly npmInstallDependencies   }
+26 silly npmInstallDependencies }
+27 silly getExecOpts E:\work\duplex_demo\packages\ws-app undefined
+28 silly npmInstall [ 'npm', [ 'install' ] ]
+29 silly npmInstallDependencies cleanup E:\work\duplex_demo\packages\ws-app\package.json
+30 error Error: ENOENT: no such file or directory, rename 'E:\work\duplex_demo\packages\ws-app\package.json.lerna_backup' -> 'E:\work\duplex_demo\packages\ws-app\package.json'
+30 error     at Object.renameSync (fs.js:734:3)
+30 error     at cleanup (C:\Users\hzbnl\AppData\Roaming\npm\node_modules\lerna\node_modules\@lerna\npm-install\npm-install.js:70:10)
+30 error     at done (C:\Users\hzbnl\AppData\Roaming\npm\node_modules\lerna\node_modules\@lerna\npm-install\npm-install.js:78:7)
+30 error     at C:\Users\hzbnl\AppData\Roaming\npm\node_modules\lerna\node_modules\@lerna\npm-install\npm-install.js:94:19
