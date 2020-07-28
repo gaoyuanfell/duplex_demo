@@ -1,3 +1,4 @@
+import core from "ws-core";
 import ws, { Server as WsServer } from "ws";
 import express from "express";
 import https from "https";

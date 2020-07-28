@@ -1,0 +1,11 @@
+{
+  "name": "ws-core",
+  "version": "1.0.0",
+  "files": [
+    "build"
+  ],
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
