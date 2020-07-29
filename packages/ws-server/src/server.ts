@@ -1,25 +1,42 @@
-import core from "ws-core";
+import { MessageType } from "ws-core";
 import ws, { Server as WsServer } from "ws";
 import express from "express";
-import https from "https";
-import fs from "fs";
-const app = express();
+import http, { Server } from "http";
 
-const options = {
-  key: fs.readFileSync("./privatekey.pem"),
-  cert: fs.readFileSync("./certificate.pem"),
-};
+// import fs from "fs";
+// import path from "path";
+// const options = {
+//   key: fs.readFileSync(path.resolve(__dirname, "../listen/privatekey.pem")),
+//   cert: fs.readFileSync(path.resolve(__dirname, "../listencertificate.pem")),
+// };
 
-const server = https.createServer(options, app);
+export class WsServerHelper {
+  private server: Server;
+  private wss?: WsServer;
+  constructor(port: number = 8081) {
+    let app = express();
+    this.server = http.createServer(app);
+    this.server.listen(port, () => {
+      console.info(`server listen port ${8081}`);
+    });
+  }
 
-const wss: WsServer = new ws.Server({ server });
+  start() {
+    this.wss = new ws.Server({ server: this.server });
+    this.wss.on("connection", (client) => {
+      this.bindEvents(client);
+    });
+  }
 
-wss.on("connection", (ws) => {
-  ws.on("message", (message) => {
-    console.info(message);
-  });
-});
-
-server.listen(8081, () => {
-  console.info("WebSocket server start 8081 port");
-});
+  private bindEvents(client: ws) {
+    client.on("message", (message) => {
+      console.info("message", message);
+    });
+    client.on("close", (message) => {
+      console.info("close", message);
+    });
+    client.on("error", (message) => {
+      console.info("error", message);
+    });
+  }
+}

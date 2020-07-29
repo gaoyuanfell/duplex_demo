@@ -1,1 +1,4 @@
-export enum MessageType {}
+export enum MessageType {
+  LOGIN,
+  LOGOUT,
+}
