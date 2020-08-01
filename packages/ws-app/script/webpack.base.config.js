@@ -8,6 +8,9 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
   },
+  resolve: {
+    extensions: [".js", ".ts"],
+  },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
@@ -15,7 +18,10 @@ module.exports = {
   },
   devtool: "source-map", //eval-source-map
   module: {
-    rules: [{ test: /\.ts$/, exclude: /node_modules/, loader: "babel-loader" }],
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.ts$/, exclude: /node_modules/, loader: "babel-loader" },
+    ],
   },
   plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 };

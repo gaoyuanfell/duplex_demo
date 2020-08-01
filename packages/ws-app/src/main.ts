@@ -1,24 +1,132 @@
-import { MessageType } from "ws-core";
-// https://192.168.2.32:8000/
-let socket: WebSocket = new WebSocket("ws://192.168.2.32:8081");
+import { MessageType, WsClient } from "ws-core";
 
-console.info(socket);
+import { VueConstructor } from "vue";
 
-socket.addEventListener("message", (message) => {
-  console.info("message", message);
+declare const Vue: VueConstructor;
+
+let wsClient: WsClient = new WsClient(); //= new WebSocket("ws://192.168.2.32:8081");
+
+var rtcp = new RTCPeerConnection();
+
+var cdc: RTCDataChannel;
+
+const app = new Vue({
+  el: "#app",
+  data() {
+    return {
+      address: "",
+      url: "ws://localhost:8081",
+      callTarget: "",
+    };
+  },
+  created() {
+    wsClient.message = this.message;
+  },
+  mounted() {
+    this.connect();
+    rtcp.addEventListener("datachannel", (event: RTCDataChannelEvent) => {
+      console.info(this.address, event, event.channel);
+    });
+    rtcp.addEventListener("icecandidate", (event: RTCPeerConnectionIceEvent) => {
+      console.info(this.address, event);
+    });
+  },
+  methods: {
+    login() {
+      wsClient.send({
+        type: MessageType.LOGIN,
+        data: this.address,
+      });
+    },
+    connect() {
+      wsClient.connect(this.url).then(() => {
+        console.info(this.address, "服务器连接成功");
+      });
+    },
+
+    async call() {
+      let offer: RTCSessionDescriptionInit = await rtcp.createOffer();
+      console.info(this.address, offer);
+      await rtcp.setLocalDescription(offer);
+      wsClient.send({
+        type: MessageType.CALL,
+        data: {
+          toAddress: this.callTarget,
+          fromAddress: this.address,
+          offer, //: rtcp.localDescription,
+        },
+      });
+    },
+
+    async offer(data: any) {
+      // await rtcp.setRemoteDescription(data.offer);
+      await rtcp.setRemoteDescription(new RTCSessionDescription(data.offer));
+
+      let answer: RTCSessionDescriptionInit = await rtcp.createAnswer();
+      console.info(this.address, answer);
+      await rtcp.setLocalDescription(answer);
+
+      wsClient.send({
+        type: MessageType.ANSWER,
+        data: {
+          fromAddress: data.fromAddress,
+          toAddress: data.toAddress,
+          answer, //: rtcp.localDescription,
+        },
+      });
+    },
+
+    async answer(data: any) {
+      // await rtcp.setRemoteDescription(data.answer);
+      await rtcp.setRemoteDescription(new RTCSessionDescription(data.answer));
+
+      cdc = rtcp.createDataChannel("sendDataChannel");
+
+      cdc.addEventListener("open", () => {
+        console.info(this.address, "datachannel open");
+      });
+
+      cdc.addEventListener("message", (message: MessageEvent) => {
+        console.info(this.address, message, message.data);
+      });
+
+      setInterval(() => {
+        if (cdc.readyState === "open") {
+          cdc.send(Date.now().toString());
+        } else {
+          console.info(this.address, "loding...");
+        }
+      }, 1000);
+    },
+
+    async message(message: MessageEvent) {
+      let { type, data } = JSON.parse(message.data);
+      console.info(this.address, data);
+      switch (type) {
+        case MessageType.ANSWER:
+          console.info(this.address, "answer");
+          this.answer(data);
+          break;
+        case MessageType.OFFER:
+          console.info(this.address, "offer");
+          this.offer(data);
+          break;
+        default:
+          break;
+      }
+    },
+  },
 });
 
-socket.addEventListener("open", (message) => {
-  console.info("open", message);
-});
-
-socket.addEventListener("close", (message) => {
-  console.info("close", message);
-});
-
-(window as any).socket = socket;
-
-console.info(MessageType);
+/**
+ * A > B
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 /**
 

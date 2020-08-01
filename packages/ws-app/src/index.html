@@ -7,5 +7,21 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="./adapter.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      <div>
+        <input v-model="url" />
+        <button @click="connect">连接</button>
+      </div>
+      <div>
+        <input v-model="address" />
+        <button @click="login">登录</button>
+      </div>
+
+      <div>
+        <input v-model="callTarget" />
+        <button @click="call">点对点</button>
+      </div>
+    </div>
+  </body>
 </html>
