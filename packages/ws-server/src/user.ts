@@ -1,5 +1,5 @@
 import ws from "ws";
-export class UserManager {
+class UserManager {
   private clientMap = new WeakMap<ws, string>();
   private userMap = new Map<string, ws>();
 
@@ -20,3 +20,5 @@ export class UserManager {
     return this.clientMap.get(client);
   }
 }
+
+export const userManager = new UserManager();

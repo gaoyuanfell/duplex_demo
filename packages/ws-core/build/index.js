@@ -13,11 +13,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageType = void 0;
 var MessageType;
 (function (MessageType) {
-    MessageType[MessageType["LOGIN"] = 0] = "LOGIN";
-    MessageType[MessageType["LOGOUT"] = 1] = "LOGOUT";
-    MessageType[MessageType["CALL"] = 2] = "CALL";
-    MessageType[MessageType["OFFER"] = 3] = "OFFER";
-    MessageType[MessageType["ANSWER"] = 4] = "ANSWER";
+    MessageType["LOGIN"] = "LOGIN";
+    MessageType["LOGOUT"] = "LOGOUT";
+    MessageType["CALL"] = "CALL";
+    MessageType["OFFER"] = "OFFER";
+    MessageType["ANSWER"] = "ANSWER";
+    MessageType["CREATE_ROOM"] = "CREATE_ROOM";
+    MessageType["CREATE_ROOM_STATE"] = "CREATE_ROOM_STATE";
+    MessageType["JOIN_ROOM"] = "JOIN_ROOM";
+    MessageType["OUT_ROOM"] = "OUT_ROOM";
+    MessageType["PING"] = "PING";
 })(MessageType = exports.MessageType || (exports.MessageType = {}));
 __exportStar(require("./ws-client"), exports);
+__exportStar(require("./duplex"), exports);
 //# sourceMappingURL=index.js.map

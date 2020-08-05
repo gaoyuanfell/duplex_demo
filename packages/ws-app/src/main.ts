@@ -21,15 +21,11 @@ const app = new Vue({
   },
   created() {
     wsClient.message = this.message;
+    let url = new URL(location.href);
+    this.address = url.searchParams.get("address") || "";
   },
   mounted() {
-    this.connect();
-    rtcp.addEventListener("datachannel", (event: RTCDataChannelEvent) => {
-      console.info(this.address, event, event.channel);
-    });
-    rtcp.addEventListener("icecandidate", (event: RTCPeerConnectionIceEvent) => {
-      console.info(this.address, event);
-    });
+    this.init();
   },
   methods: {
     login() {
@@ -38,12 +34,20 @@ const app = new Vue({
         data: this.address,
       });
     },
-    connect() {
-      wsClient.connect(this.url).then(() => {
-        console.info(this.address, "服务器连接成功");
+    async connect() {
+      await wsClient.connect(this.url);
+      console.info(this.address, "服务器连接成功");
+    },
+    async init() {
+      await this.connect();
+      if (this.address) this.login();
+      rtcp.addEventListener("datachannel", (event: RTCDataChannelEvent) => {
+        console.info(this.address, event, event.channel);
+      });
+      rtcp.addEventListener("icecandidate", (event: RTCPeerConnectionIceEvent) => {
+        console.info(this.address, event);
       });
     },
-
     async call() {
       let offer: RTCSessionDescriptionInit = await rtcp.createOffer();
       console.info(this.address, offer);

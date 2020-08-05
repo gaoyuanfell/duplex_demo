@@ -1,9 +1,15 @@
 export declare enum MessageType {
-    LOGIN = 0,
-    LOGOUT = 1,
-    CALL = 2,
-    OFFER = 3,
-    ANSWER = 4
+    LOGIN = "LOGIN",
+    LOGOUT = "LOGOUT",
+    CALL = "CALL",
+    OFFER = "OFFER",
+    ANSWER = "ANSWER",
+    CREATE_ROOM = "CREATE_ROOM",
+    CREATE_ROOM_STATE = "CREATE_ROOM_STATE",
+    JOIN_ROOM = "JOIN_ROOM",
+    OUT_ROOM = "OUT_ROOM",
+    PING = "PING"
 }
 export * from "./ws-client";
+export * from "./duplex";
 //# sourceMappingURL=index.d.ts.map

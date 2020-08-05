@@ -6,21 +6,36 @@
     <title></title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="./adapter.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #app {
+        display: flex;
+      }
+      #app > div {
+        flex: 1;
+      }
+      video {
+        transform: rotateY(180deg);
+      }
+    </style>
   </head>
   <body>
     <div id="app">
-      <div>
-        <input v-model="url" />
-        <button @click="connect">连接</button>
-      </div>
-      <div>
-        <input v-model="address" />
-        <button @click="login">登录</button>
+      <div id="anchor" v-if="type === 'anchor'">
+        <div>
+          <input v-model="roomId" />
+          <button @click="play">开播</button>
+        </div>
+        <video ref="anchor" playsinline autoplay muted></video>
       </div>
 
-      <div>
-        <input v-model="callTarget" />
-        <button @click="call">点对点</button>
+      <div id="fans" v-if="type === 'fans'">
+        <input v-model="roomId" />
+        <button @click="call">点播</button>
+        <video ref="fans" playsinline autoplay muted></video>
       </div>
     </div>
   </body>

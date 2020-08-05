@@ -1,4 +1,5 @@
-import { UserManager } from "./user";
+import { roomManager } from "./room";
+import { userManager } from "./user";
 import { MessageType } from "ws-core";
 import ws, { Server as WsServer } from "ws";
 import express from "express";
@@ -10,8 +11,6 @@ import http, { Server } from "http";
 //   key: fs.readFileSync(path.resolve(__dirname, "../listen/privatekey.pem")),
 //   cert: fs.readFileSync(path.resolve(__dirname, "../listencertificate.pem")),
 // };
-
-const userManager = new UserManager();
 
 export class WsServerHelper {
   private server: Server;
@@ -34,38 +33,48 @@ export class WsServerHelper {
   private bindEvents(client: ws) {
     client.on("message", (message) => {
       let { type, data } = JSON.parse(message.toString());
-      console.info("message", type, data);
-      let { toAddress, fromAddress, offer, answer } = data;
+      // console.info("message", type, data);
+      let { toAddress, fromAddress, roomId, sdp } = data || {};
       let toClient = userManager.get(toAddress);
       let fromClient = userManager.get(fromAddress);
+      let room;
       switch (type) {
+        case MessageType.PING:
+          room = roomManager.roomMap.get(client);
+          let fans: any[] = [];
+          if (room) {
+            fans = room.fansList;
+          }
+          client.send(
+            JSON.stringify({
+              type: MessageType.PING,
+              data: JSON.stringify(fans),
+            })
+          );
+          break;
         case MessageType.LOGIN:
           userManager.login(data, client);
           break;
-        case MessageType.CALL:
-          toClient?.send(
+        case MessageType.CREATE_ROOM:
+          roomManager.creat(client, roomId);
+          client.send(
             JSON.stringify({
-              type: MessageType.OFFER,
-              data: {
-                fromAddress: fromAddress,
-                toAddress: toAddress,
-                offer,
-              },
+              type: MessageType.CREATE_ROOM_STATE,
+              data: "ok",
             })
           );
+          break;
+        case MessageType.OFFER:
+          room = roomManager.roomMap.get(client);
+          if (room) {
+            room.sdp = sdp;
+          }
           break;
         case MessageType.ANSWER:
-          fromClient?.send(
-            JSON.stringify({
-              type: MessageType.ANSWER,
-              data: {
-                fromAddress: fromAddress,
-                toAddress: toAddress,
-                answer,
-              },
-            })
-          );
           break;
+        case MessageType.CALL:
+          break;
+
         default:
           break;
       }
